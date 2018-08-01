@@ -1,4 +1,4 @@
-FROM ubuntu:16.04.04
+FROM ubuntu:16.04
 MAINTAINER Akhil Kumar Maheshwari <akhu.gset@gmail.com>
 
 # Environments vars
