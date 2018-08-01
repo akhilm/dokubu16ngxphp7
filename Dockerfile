@@ -42,10 +42,13 @@ ADD config/nginx/nginx.conf /etc/nginx/nginx.conf
 ADD config/php/php.ini /etc/php/7.0/fpm/php.ini
 ADD config/fpm/www.conf /etc/php/7.0/fpm/pool.d/www.conf
 
+ADD html /var/www/ 
+
 WORKDIR /var/www/html/
 
-# Create socker
-RUN mkdir -p /run/php
+# Create socket
+RUN mkdir -p /run/php \
+    && chown -R www-data:www-data /var/www/html
 
 # Volume
 VOLUME /var/www/html
@@ -53,3 +56,6 @@ VOLUME /var/www/html
 # Ports: nginx
 EXPOSE 80
 #443
+
+COPY ./scripts/docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
