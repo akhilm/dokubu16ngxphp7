@@ -48,7 +48,7 @@ WORKDIR /var/www/html/
 
 # Create socket
 RUN mkdir -p /run/php \
-    && chown -R www-data:www-data /var/www/html
+    && chown -R www-data:www-data /var/www/html \
 
 # Volume
 VOLUME /var/www/html
@@ -57,5 +57,7 @@ VOLUME /var/www/html
 EXPOSE 80
 #443
 
-COPY ./scripts/docker-entrypoint.sh /
+COPY ./scripts/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod o+x /docker-entrypoint.sh
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
