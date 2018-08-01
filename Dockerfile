@@ -48,7 +48,7 @@ WORKDIR /var/www/html/
 
 # Create socket
 RUN mkdir -p /run/php \
-    && chown -R www-data:www-data /var/www/html \
+    && chown -R www-data:www-data /var/www/html
 
 # Volume
 VOLUME /var/www/html
