@@ -27,6 +27,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y --fix-missing install php \
       vim \
       lynx-cur
 
+# Install supervisor
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y --fix-missing install supervisor
+RUN mkdir -p /var/log/supervisor
+
 # Install nginx (full)
 RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y nginx-full
 
@@ -42,7 +46,11 @@ ADD config/nginx/nginx.conf /etc/nginx/nginx.conf
 ADD config/php/php.ini /etc/php/7.0/fpm/php.ini
 ADD config/fpm/www.conf /etc/php/7.0/fpm/pool.d/www.conf
 
-ADD html /var/www/ 
+# Supervisor conf
+ADD config/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+
+ADD html /var/www/html 
 
 WORKDIR /var/www/html/
 
@@ -57,7 +65,4 @@ VOLUME /var/www/html
 EXPOSE 80
 #443
 
-COPY ./scripts/docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod o+x /docker-entrypoint.sh
-
-ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["/usr/bin/supervisord"]
